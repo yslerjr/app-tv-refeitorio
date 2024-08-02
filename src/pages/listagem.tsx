@@ -1,6 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import Upload from './upload';
 
+const getDayName = (dayOfWeek: any) => {
+  const daysOfWeek = [
+    'Domingo',
+    'Segunda-feira',
+    'Terça-feira',
+    'Quarta-feira',
+    'Quinta-feira',
+    'Sexta-feira',
+    'Sábado',
+  ];
+  return daysOfWeek[dayOfWeek];
+};
+
 export default function Listagem() {
   const [videos, setVideos] = useState([]);
   const [refetch, setRefetch] = useState(false);
@@ -23,7 +36,7 @@ export default function Listagem() {
     });
     const data = await res.json();
     if (res.ok) {
-      setVideos(videos.filter((video) => video !== videoName));
+      setRefetch(!refetch);
     } else {
       console.error(data.message);
     }
@@ -40,7 +53,10 @@ export default function Listagem() {
           <div className="grid grid-cols-4 gap-4">
             {videos.map((video: any) => (
               <div key={video} className="flex flex-col gap-2">
-                <video src={video} loop={false} controls />
+                <video src={`/videos/` + video.url} loop={false} controls />
+                <h3 className="bg-sky-700 w-fit px-2 rounded">
+                  {getDayName(video.dayOfWeek)}
+                </h3>
                 <button
                   className="bg-red-500 px-2 w-fit rounded-sm hover:bg-red-700"
                   onClick={() => setConfirmDelete(video)}
@@ -54,7 +70,7 @@ export default function Listagem() {
                   <div className="flex items-center gap-2">
                     <button
                       className="bg-red-500 px-2 w-fit rounded-sm hover:bg-red-700"
-                      onClick={() => handleDelete(video)}
+                      onClick={() => handleDelete(video.url)}
                     >
                       Sim, remover
                     </button>
