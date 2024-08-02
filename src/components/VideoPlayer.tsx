@@ -10,8 +10,6 @@ const VideoPlayer = () => {
     const fetchVideos = async () => {
       const res = await fetch('http://localhost:3000/api/videos/byDayOfWeek');
       const data = await res.json();
-
-      console.log(data);
       setVideos(data.map((video: any) => `videos/${video.url}`));
     };
 
