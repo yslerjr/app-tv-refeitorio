@@ -1,4 +1,5 @@
 // components/VideoPlayer.js
+import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 
 const VideoPlayer = () => {
@@ -8,8 +9,7 @@ const VideoPlayer = () => {
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await fetch('http://localhost:3000/api/videos/byDayOfWeek');
-      const data = await res.json();
+      const { data } = await axios.get('/api/videos/byDayOfWeek');
       setVideos(data.map((video: any) => `videos/${video.url}`));
     };
 

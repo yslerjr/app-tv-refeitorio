@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Upload from './upload';
+import axios from 'axios';
 
 const getDayName = (dayOfWeek: any) => {
   const daysOfWeek = [
@@ -20,22 +21,18 @@ export default function Listagem() {
   const [confirmDelete, setConfirmDelete] = useState('');
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await fetch('/api/videos');
-      const data = await res.json();
+      const { data } = await axios.get('/api/videos');
       setVideos(data);
-
-      console.log(data);
     };
 
     fetchVideos();
   }, [refetch]);
 
   const handleDelete = async (videoName: any) => {
-    const res = await fetch(`/api/videos/remove?videoName=${videoName}`, {
-      method: 'DELETE',
-    });
-    const data = await res.json();
-    if (res.ok) {
+    const { data } = await axios.delete(
+      `/api/videos/remove?videoName=${videoName}`
+    );
+    if (data) {
       setRefetch(!refetch);
     } else {
       console.error(data.message);

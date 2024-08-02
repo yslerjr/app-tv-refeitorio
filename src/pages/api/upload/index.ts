@@ -30,7 +30,6 @@ handler.post((req: any, res: any) => {
       return res.status(500).json({ error: 'Error renaming the file', details: err });
     }
 
-    console.log(req.body);
     await prisma.video.create({
       data: {
         dayOfWeek: Number(req.body.dayOfWeek),
