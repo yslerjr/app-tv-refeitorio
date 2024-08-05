@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma';
 
-
 const getDayOfWeek = () => {
   const today = new Date();
   return today.getDay();
